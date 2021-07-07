@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+
+
+{% block title %} Home {% endblock %}
+
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+
+            <div class="jumbotron p-3">
+
+                <h2>Manage <b>Tasks </b>  <button type="button"  class="btn btn-success float-right"
+                data-toggle="modal" data-target="#mymodal">Add New Task</button> </h2>
+
+
+                {% with messages = get_flashed_messages() %}
+
+                {% if messages %}
+
+                {% for message in messages %}
+
+                <div class="alert alert-success alert-dismissable" role="alert">
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+                        <span aria-hidden="true">x</span>
+
+                    </button>
+
+
+                {{message}}
+
+
+                </div>
+
+
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+
+                <table class="table table-hover table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Task</th>
+                        <th>Group</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                    <tr>
+                        <td>01</td>
+                        <td>Clean home</td>
+                        <td>cleaning</td>
+                        <td>moderate</td>
+                        <td>
+                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="">Edit</a>
+                            <a href="" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+
+
+                        </td>
+                    </tr>
+
+
+                   {% for row in Task %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.task}}</td>
+                        <td>{{row.group}}</td>
+                        <td>{{row.priority}}</td>
+
+                        <td>
+                            <a href="/update/{{row.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                            <a href="/delete/{{row.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+
+
+                        </td>
+
+                    </tr>
+
+
+                  <!-- Modal Edit Task-->
+<div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+
+         <div class="modal-header">
+
+            <h4 class="modal-title">Update Information</h4>
+
+         </div>
+
+         <div class="modal-body">
+
+            <form action="{{url_for('update')}}" method="POST">
+
+               <div class="form-group">
+
+                  <label>Task:</label>
+                   <input type="hidden"  name="id" value="{{row.id}}">
+                   <input type="text" class="form-control" name="task" value="{{row.task}}">
+
+               </div>
+
+               <div class="form-group">
+
+                  <label>Group:</label>
+
+                  <input type="text" class="form-control" name="group" value="{{row.group}}">
+
+               </div>
+
+               <div class="form-group">
+
+                  <label>Priority:</label>
+
+                  <input type="text" class="form-control" name="priority" value="{{row.priority}}">
+
+               </div>
+
+               <div class="form-group">
+
+                  <button class="btn btn-primary" type="submit">Update</button>
+
+               </div>
+
+            </form>
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+</div>
+
+
+                    {% endfor %}
+
+
+                </table>
+
+
+            </div>
+
+
+
+                  <!-- Modal Add Employee-->
+
+
+<div id="mymodal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+
+            <h4 class="modal-title">Add Task</h4>
+         </div>
+         <div class="modal-body">
+
+            <form action="{{url_for('insert')}}" method="POST">
+
+
+               <div class="form-group">
+
+                  <label>Task:</label>
+                  <input type="text" class="form-control" name="task" required="1">
+
+
+               </div>
+
+
+                <div class="form-group">
+
+
+                  <label>Group:</label>
+                  <input type="text" class="form-control" name="group" required="1">
+
+
+               </div>
+
+
+                <div class="form-group">
+
+
+                  <label>Priority:</label>
+                  <input type="text" class="form-control" name="priority" required="1">
+
+
+               </div>
+
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Add Task</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
