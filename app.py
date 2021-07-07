@@ -46,7 +46,7 @@ def insert():
 
         db.test.insert_one(record)
         
-        print("***********Record inserted***********")
+        print("***********Data inserted***********")
 
         flash("Task Inserted Successfully")
 
@@ -62,7 +62,7 @@ def update():
         id = request.form.get('id')
 
         priority=request.form['priority']
-        
+
         db.test.find_one_and_update({"id":id},
             {"$set":{
                 "priority" : priority
@@ -92,4 +92,4 @@ def delete(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')
